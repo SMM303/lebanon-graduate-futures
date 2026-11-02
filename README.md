@@ -4,7 +4,7 @@ An interactive evidence dashboard on what happens to Lebanese university graduat
 
 MSBA 325 Data Visualization and Communication, American University of Beirut, Fall 2026. Team 5: Amal Alrajab, Hassan Halabi, Hidaya Hussein, Maya Raad and Saleh Mansour.
 
-**Live page:** `https://<your-github-username>.github.io/lebanon-graduate-futures/` (active once GitHub Pages is switched on; see [PUBLISHING.md](PUBLISHING.md)).
+**Live page:** `https://github.com/SMM303/lebanon-graduate-futures/` (active once GitHub Pages is switched on; see [PUBLISHING.md](PUBLISHING.md)).
 
 ## What the dashboard shows
 
