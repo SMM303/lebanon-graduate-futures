@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lebanon Graduate Futures</title>
+<meta name="description" content="Evidence dashboard on what happens to Lebanese university graduates after 2019: employment, emigration and the diaspora economy. MSBA 325, American University of Beirut.">
+<meta property="og:title" content="Lebanon Graduate Futures">
+<meta property="og:description" content="Youth unemployment, emigration intentions and remittances in Lebanon since 2019, with sources and data gaps stated.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231F5FA8'/%3E%3Crect x='7' y='17' width='5' height='8' fill='%23fff'/%3E%3Crect x='14' y='11' width='5' height='14' fill='%23fff'/%3E%3Crect x='21' y='6' width='5' height='19' fill='%23E8740C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Palette: blue and orange only, plus neutral greys. Orange marks Lebanon and the problem; blue marks benchmarks and positive change; grey pushes context to the background. Blue/orange stays distinguishable under red-green colour blindness, and every colour cue is paired with a shape, dash or label. */
+:root{
+  --ink:#14213a; --ink-2:#4a5568; --ground:#f5f7fa; --panel:#ffffff; --rule:#dde3eb;
+  --blue:#1f5fa8; --blue-soft:#d8e6f6; --orange:#e8740c; --orange-ink:#b35505; --orange-soft:#fde6d2;
+  --grey:#8a93a3; --grey-soft:#c9cfd9; --muted:#6b7485;
+  --display:"Source Serif 4",Georgia,serif; --body:"Figtree","Segoe UI",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ink:#eef2f8; --ink-2:#b2bccb; --ground:#0c1422; --panel:#131e31; --rule:#26344d;
+  --blue:#6fa8e8; --blue-soft:#1e3557; --orange:#f59a45; --orange-ink:#f7ac66; --orange-soft:#4a2e14;
+  --grey:#78839a; --grey-soft:#3a475f; --muted:#8a95a9; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ink:#eef2f8; --ink-2:#b2bccb; --ground:#0c1422; --panel:#131e31; --rule:#26344d;
+  --blue:#6fa8e8; --blue-soft:#1e3557; --orange:#f59a45; --orange-ink:#f7ac66; --orange-soft:#4a2e14;
+  --grey:#78839a; --grey-soft:#3a475f; --muted:#8a95a9; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.55 var(--body)}
+a{color:var(--blue)}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;z-index:20;background:var(--panel);padding:8px 12px}
+nav.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--ground) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
+nav.top .in{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;gap:16px;align-items:center}
+nav.top .brand{font:600 14px var(--body);white-space:nowrap;color:var(--ink);text-decoration:none}
+nav.top .brand i{display:inline-block;width:10px;height:10px;background:var(--orange);margin-right:8px;vertical-align:1px}
+nav.top ul{list-style:none;display:flex;gap:4px;margin:0;padding:0;overflow-x:auto;scrollbar-width:none;flex:1}
+nav.top ul::-webkit-scrollbar{display:none}
+nav.top li a{display:block;padding:5px 10px;font-size:13px;color:var(--ink-2);text-decoration:none;border-radius:6px;white-space:nowrap}
+nav.top li a:hover,nav.top li a.on{background:var(--blue-soft);color:var(--ink)}
+#theme{font:500 12px var(--mono);background:transparent;border:1px solid var(--rule);color:var(--ink-2);padding:5px 10px;border-radius:6px;cursor:pointer;white-space:nowrap}
+.wrap{max-width:1120px;margin:0 auto;padding:36px 16px 64px}
+header.hero{display:grid;gap:22px;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+.eyebrow{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+h1{font:700 clamp(32px,5.6vw,56px)/1.06 var(--display);margin:0;text-wrap:balance}
+h1 em{font-style:normal;color:var(--orange-ink)}
+.lede{color:var(--ink-2);font-size:18px;margin:0;text-wrap:pretty}
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.fig{background:var(--panel);border:1px solid var(--rule);border-top:3px solid var(--grey-soft);padding:16px;display:grid;gap:6px;align-content:start}
+.fig.o{border-top-color:var(--orange)} .fig.b{border-top-color:var(--blue)}
+.fig b{font:700 clamp(30px,3.6vw,40px)/1 var(--display);font-variant-numeric:tabular-nums}
+.fig.o b{color:var(--orange-ink)} .fig.b b{color:var(--blue)}
+.fig span{font-size:14px;color:var(--ink-2)}
+.fig small{font:11px/1.4 var(--mono);color:var(--muted)}
+.badge{display:inline-block;font:500 10.5px/1.6 var(--mono);padding:0 7px;border-radius:999px;vertical-align:2px;margin-left:4px;white-space:nowrap;cursor:help}
+.badge.ok{background:var(--blue-soft);color:var(--blue)}
+.badge.sec{background:transparent;color:var(--orange-ink);border:1px dashed var(--orange)}
+.howto{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--ink-2)}
+.howto span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:0}
+.howto .k-o::before{background:var(--orange)} .howto .k-b::before{background:var(--blue)} .howto .k-g::before{background:var(--grey)}
+section.ch{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.65fr);gap:32px;padding-block:44px;border-bottom:1px solid var(--rule)}
+.txt{display:grid;gap:12px;align-content:start}
+.num{font:500 12px var(--mono);color:var(--blue);letter-spacing:.1em}
+h2{font:700 clamp(23px,2.8vw,30px)/1.15 var(--display);margin:0;text-wrap:balance}
+.txt p{margin:0;color:var(--ink-2);max-width:60ch}
+.txt p strong{color:var(--ink);font-weight:600}
+.caveat{font-size:13.5px;border-left:3px solid var(--orange);padding:4px 0 4px 12px;color:var(--ink-2)}
+.exhibit{background:var(--panel);border:1px solid var(--rule);padding:16px 16px 10px;min-width:0;display:grid;gap:6px;align-content:start}
+.ctitle{font:600 16px/1.3 var(--body);margin:0;color:var(--ink)}
+.csub{font-size:12.5px;color:var(--muted);margin:0}
+.plot{width:100%;height:360px}
+.ctl{display:flex;flex-wrap:wrap;gap:6px}
+.ctl button,.chips button,.filt button{font:500 13px var(--body);color:var(--ink-2);background:transparent;border:1px solid var(--rule);padding:5px 12px;cursor:pointer;border-radius:999px}
+.ctl button[aria-pressed="true"],.filt button[aria-pressed="true"]{background:var(--blue);color:var(--panel);border-color:var(--blue)}
+.chips button[aria-pressed="true"]{border-color:var(--ink-2);color:var(--ink);background:var(--blue-soft)}
+.chips button.fixed{border-color:var(--orange);color:var(--orange-ink);cursor:default}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.src{font:11px/1.5 var(--mono);color:var(--muted);margin:2px 0}
+details.dt{border-top:1px solid var(--rule);padding-top:6px}
+details.dt summary{font:500 12px var(--mono);color:var(--blue);cursor:pointer;list-style:none}
+details.dt summary::before{content:"+ "} details.dt[open] summary::before{content:"− "}
+.tbl{max-height:240px;overflow:auto;margin:8px 0}
+.tbl table{border-collapse:collapse;width:100%;font:12px var(--mono)}
+.tbl th,.tbl td{text-align:left;padding:3px 8px;border-bottom:1px solid var(--rule)}
+.tbl th{position:sticky;top:0;background:var(--panel);color:var(--ink-2)}
+.tbl td.n{text-align:right;font-variant-numeric:tabular-nums}
+.dl{font:500 12px var(--mono);background:transparent;color:var(--blue);border:1px solid var(--blue);border-radius:6px;padding:4px 10px;cursor:pointer;margin-bottom:6px}
+/* simulator */
+.sim{padding-block:48px;display:grid;gap:22px;border-bottom:1px solid var(--rule)}
+.sim .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:28px}
+.knobs{display:grid;gap:18px;background:var(--panel);border:1px solid var(--rule);padding:20px;align-content:start}
+.knob{display:grid;gap:6px}
+.knob label{display:flex;justify-content:space-between;gap:12px;font-size:14px;font-weight:600}
+.knob output{font:500 14px var(--mono);color:var(--blue);font-variant-numeric:tabular-nums}
+.knob small{color:var(--muted);font-size:12px;line-height:1.4}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.knobs h3,.res h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;margin:0;color:var(--ink-2)}
+.lever{border-top:1px solid var(--rule);padding-top:14px;display:grid;gap:18px}
+#reset{justify-self:start;font:500 12px var(--mono);background:transparent;border:1px solid var(--rule);color:var(--ink-2);padding:5px 10px;border-radius:6px;cursor:pointer}
+.res{display:grid;gap:14px;min-width:0;align-content:start}
+.outs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.out{background:var(--panel);border:1px solid var(--rule);padding:14px;display:grid;gap:4px}
+.out b{font:700 28px/1.05 var(--display);font-variant-numeric:tabular-nums}
+.out span{font-size:12.5px;color:var(--ink-2)}
+.out em{font:normal 12px var(--mono)}
+.up{color:var(--blue)} .down{color:var(--orange-ink)}
+.note{font-size:13px;color:var(--muted);max-width:78ch;margin:0}
+/* explorer */
+.explore{padding-block:48px;display:grid;gap:18px;border-bottom:1px solid var(--rule)}
+.explore .bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.explore select{font:500 14px var(--body);padding:7px 10px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);border-radius:6px;max-width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+/* gaps register */
+.gapsec{padding-block:48px;display:grid;gap:18px;border-bottom:1px solid var(--rule)}
+.filt{display:flex;gap:6px;flex-wrap:wrap}
+.glist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.g{background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--grey-soft);padding:14px 16px;display:grid;gap:6px}
+.g.High{border-left-color:var(--orange)} .g.Medium{border-left-color:var(--blue)}
+.g h4{margin:0;font:600 15px/1.3 var(--body)}
+.g p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.g p b{color:var(--ink);font-weight:600}
+.pri{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.g.High .pri{color:var(--orange-ink)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.col h3{font:700 22px var(--display);margin:0 0 8px;padding-bottom:8px;border-bottom:2px solid var(--c)}
+.col ul{margin:0;padding-left:18px;display:grid;gap:8px;color:var(--ink-2);font-size:15px}
+.col.s{--c:var(--blue)} .col.o{--c:var(--orange)}
+.sgo{padding-block:48px;display:grid;gap:20px}
+footer{padding-top:28px;display:grid;gap:10px;font-size:13px;color:var(--ink-2);border-top:1px solid var(--rule)}
+footer h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;margin:0}
+footer ol{margin:0;padding-left:20px;display:grid;gap:4px}
+@media (max-width:860px){
+  section.ch,.sim .grid,.cols{grid-template-columns:minmax(0,1fr)}
+  .figs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .plot{height:320px}
+  nav.top .brand span{display:none}
+}
+@media (max-width:480px){.outs,.figs{grid-template-columns:minmax(0,1fr)} .plot{height:300px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{nav.top,details.dt,.ctl,#theme{display:none} section.ch{break-inside:avoid}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="top" aria-label="Sections"><div class="in">
+  <a class="brand" href="#top"><i></i><span>Lebanon Graduate Futures</span></a>
+  <ul>
+    <li><a href="#e1">Measurement</a></li><li><a href="#e2">Degrees</a></li><li><a href="#e3">Emigration</a></li>
+    <li><a href="#e4">Diaspora</a></li><li><a href="#e5">Investment</a></li><li><a href="#e6">Model</a></li>
+    <li><a href="#sim">Scenarios</a></li><li><a href="#explore">Explorer</a></li><li><a href="#gaps">Data gaps</a></li><li><a href="#sources">Sources</a></li>
+  </ul>
+  <button id="theme" type="button" aria-label="Switch colour theme">Dark</button>
+</div></nav>
+
+<main class="wrap" id="main">
+<header class="hero" id="top">
+  <div class="eyebrow">MSBA 325 · Team 5 · American University of Beirut</div>
+  <h1>Lebanon trains graduates for the world, <em>and keeps too few of them.</em></h1>
+  <p class="lede">Youth unemployment doubled between 2018-19 and January 2022, almost half of university-educated adults say they want to leave, and money sent home by emigrants now equals a third of the economy. This page sets out the evidence, how solid each number is, and what changes if Lebanon responds.</p>
+  <div class="figs">
+    <div class="fig o"><b>47.8%</b><span>youth unemployment (15-24), January 2022 <span class="badge sec" title="Secondary source (Blom Invest Bank blog); not yet checked against CAS tables">secondary source</span></span><small>CAS/ILO survey · 23.3% in 2018-19</small></div>
+    <div class="fig o"><b>46%</b><span>of university-educated adults want to emigrate <span class="badge ok" title="Verified against the 2024 factsheet (opened 20 Oct 2026)">verified</span></span><small>Arab Barometer, 2024 · 58% of ages 18-29</small></div>
+    <div class="fig o"><b>33.3%</b><span>of GDP arrives as remittances</span><small>World Bank WDI, 2023 · Jordan 7.8%</small></div>
+    <div class="fig b"><b>1.2%</b><span>of GDP spent on public education</span><small>World Bank WDI, 2024 · world 3.6% (2023)</small></div>
+  </div>
+  <div class="howto" aria-label="How to read the charts">
+    <span class="k-o">Orange: Lebanon, or the problem shown</span><span class="k-b">Blue: benchmark or improvement</span><span class="k-g">Grey: context</span>
+    <span>Badges: <span class="badge ok">verified</span> checked in the primary report; <span class="badge sec">secondary source</span> not yet checked (16 of 32 survey figures)</span>
+  </div>
+</header>
+
+<section class="ch" id="e1">
+  <div class="txt">
+    <div class="num">EVIDENCE 1 · MEASUREMENT</div>
+    <h2>Global data cannot see the crisis</h2>
+    <p>The ILO modelled estimates used in international dashboards show Lebanon's unemployment barely moving: <strong>11.1% in 2022</strong>, below the 11.3% of 2019. The national survey counted <strong>29.6%</strong> that January <span class="badge sec" title="Secondary source (Blom Invest Bank blog); not yet checked against CAS tables">secondary source</span>, and <strong>47.8%</strong> for people aged 15-24.</p>
+    <p>For young people the modelled figure (22.9%) is 48% of the survey figure, a gap of 24.9 points. Anyone ranking countries from global data sees half of Lebanon's youth crisis.</p>
+    <p class="caveat">Youth unemployment covers everyone aged 15-24 in the labour force. It is not a graduate unemployment rate, which no source currently publishes.</p>
+  </div>
+  <div class="exhibit">
+    <div class="ctl" role="group" aria-label="Measure">
+      <button id="m-total" aria-pressed="false">All ages</button>
+      <button id="m-youth" aria-pressed="true">Youth 15-24</button>
+      <button id="m-all" aria-pressed="false">All 2022 indicators</button>
+    </div>
+    <p class="ctitle" id="t-gap"></p><p class="csub" id="s-gap"></p>
+    <div id="p-gap" class="plot" role="img" aria-label="Chart comparing survey and modelled unemployment for Lebanon"></div>
+    <div class="src" id="src-gap"></div>
+    <details class="dt" data-plot="p-gap"><summary>Data behind this chart</summary><div class="tbl"></div><button class="dl" type="button">Download CSV</button></details>
+  </div>
+</section>
+
+<section class="ch" id="e2">
+  <div class="txt">
+    <div class="num">EVIDENCE 2 · DEGREES WITHOUT JOBS</div>
+    <h2>More students, a smaller economy</h2>
+    <p>Gross tertiary enrolment rose from <strong>47.2% in 2018 to 58.2% in 2022</strong>. Over the same years GDP per capita fell <strong>62%</strong>, reaching US$3,478 in 2023 before a partial recovery to US$4,473 in 2024. The survey employment-to-population ratio dropped from 43.3% to 30.6%.</p>
+    <p>University has become a waiting room. Youth labour underutilisation reached <strong>64.2%</strong> <span class="badge sec" title="Secondary source (Blom Invest Bank blog); not yet checked against CAS tables">secondary source</span>, and 48.8% of the unemployed had been looking for a year or more.</p>
+  </div>
+  <div class="exhibit">
+    <div class="ctl" role="group" aria-label="View">
+      <button id="i-idx" aria-pressed="true">Index, 2018 = 100</button>
+      <button id="i-lfs" aria-pressed="false">Survey: 2018-19 vs 2022</button>
+    </div>
+    <p class="ctitle" id="t-idx"></p><p class="csub" id="s-idx"></p>
+    <div id="p-idx" class="plot" role="img" aria-label="Chart of Lebanon education and economy indicators"></div>
+    <div class="src" id="src-idx"></div>
+    <details class="dt" data-plot="p-idx"><summary>Data behind this chart</summary><div class="tbl"></div><button class="dl" type="button">Download CSV</button></details>
+  </div>
+</section>
+
+<section class="ch" id="e3">
+  <div class="txt">
+    <div class="num">EVIDENCE 3 · THE DEGREE AS AN EXIT TICKET</div>
+    <h2>The more educated, the readier to leave</h2>
+    <p>In 2024, <strong>46%</strong> of university-educated Lebanese wanted to emigrate, against 33% of the less educated. Among ages 18-29 the figure is <strong>58%</strong>, double the 29% of older adults.</p>
+    <p>The wish to leave has risen from 26% of all adults in 2018 to 38% in 2024.</p>
+    <p class="caveat">Arab Barometer measures intentions among Lebanese citizens, not recorded departures. It covers a different population from the CAS/ILO labour survey, so the two are never combined here.</p>
+  </div>
+  <div class="exhibit">
+    <div class="ctl" role="group" aria-label="View">
+      <button id="e-grp" aria-pressed="true">Who wants to leave</button>
+      <button id="e-trend" aria-pressed="false">Trend since 2007</button>
+    </div>
+    <p class="ctitle" id="t-emig"></p><p class="csub" id="s-emig"></p>
+    <div id="p-emig" class="plot" role="img" aria-label="Chart of emigration intentions in Lebanon"></div>
+    <div class="src" id="src-emig"></div>
+    <details class="dt" data-plot="p-emig"><summary>Data behind this chart</summary><div class="tbl"></div><button class="dl" type="button">Download CSV</button></details>
+  </div>
+</section>
+
+<section class="ch" id="e4">
+  <div class="txt">
+    <div class="num">EVIDENCE 4 · THE DIASPORA ECONOMY</div>
+    <h2>Emigrants are the steadiest part of the economy</h2>
+    <p>Remittances stayed between US$6.4 and 7.4 billion a year while GDP fell from US$54.9 billion (2018) to US$20.1 billion (2023). Their weight rose from <strong>12.7% to 33.3% of GDP</strong>, about 4 times Jordan's share in the same year.</p>
+    <p>This is both the risk and the opening: graduates who left are already Lebanon's largest source of foreign money. Hover a grey line to see which comparator it is.</p>
+  </div>
+  <div class="exhibit">
+    <p class="ctitle">Remittances rose to a third of Lebanon's GDP as the economy shrank</p><p class="csub">Personal remittances received, % of GDP, 2008-2024</p>
+    <div id="p-remit" class="plot" role="img" aria-label="Line chart of remittances as a share of GDP"></div>
+    <div class="src">World Bank WDI: personal remittances received ÷ GDP (current US$). Lebanon's latest value is 2023.</div>
+    <details class="dt" data-plot="p-remit"><summary>Data behind this chart</summary><div class="tbl"></div><button class="dl" type="button">Download CSV</button></details>
+  </div>
+</section>
+
+<section class="ch" id="e5">
+  <div class="txt">
+    <div class="num">EVIDENCE 5 · INVESTMENT AND TALENT LEFT IDLE</div>
+    <h2>High enrolment, low public investment, women outside the market</h2>
+    <p>Lebanon enrols 54.4% of the tertiary age group (2023), more than any Arab comparator shown, yet spends <strong>1.2% of GDP</strong> on public education, about a third of the world average.</p>
+    <p>In January 2022 only <strong>22%</strong> of women were in the labour force, against 66% of men. Women are the largest pool of trained talent the economy does not use.</p>
+  </div>
+  <div class="exhibit">
+    <div class="ctl" role="group" aria-label="View">
+      <button id="v-edu" aria-pressed="true">Education spending</button>
+      <button id="v-tert" aria-pressed="false">Tertiary enrolment</button>
+      <button id="v-lfp" aria-pressed="false">Women and men at work</button>
+    </div>
+    <p class="ctitle" id="t-inv"></p><p class="csub" id="s-inv"></p>
+    <div id="p-inv" class="plot" role="img" aria-label="Chart of education investment and labour participation"></div>
+    <div class="src" id="src-inv"></div>
+    <details class="dt" data-plot="p-inv"><summary>Data behind this chart</summary><div class="tbl"></div><button class="dl" type="button">Download CSV</button></details>
+  </div>
+</section>
+
+<section class="ch" id="e6">
+  <div class="txt">
+    <div class="num">ANALYTICS · WHAT MOVES YOUTH UNEMPLOYMENT</div>
+    <h2>Faster growth goes with lower youth unemployment</h2>
+    <p>A fixed-effects regression across Lebanon, Jordan, Egypt, Tunisia, Morocco and Cyprus (2008-2024, 98 country-years) links each extra point of GDP per capita growth to <strong>0.35 points lower</strong> youth unemployment (p = 0.002).</p>
+    <p>Remittances carry a positive sign (0.21 points per point of GDP) but the confidence interval crosses zero (p = 0.10), so the panel does not support a firm link. Higher female participation goes with higher youth unemployment (+0.75 points, p = 0.006), a pattern these aggregate data cannot explain. Filled dots are significant at 5%; hollow dots are not.</p>
+    <p class="caveat">These are associations in modelled data, not causes. The ILO series is partly estimated from GDP, and Evidence 1 shows it misses Lebanon's crisis. The model should be refitted on survey data when more rounds exist.</p>
+  </div>
+  <div class="exhibit">
+    <p class="ctitle" id="t-model"></p><p class="csub">Estimated change in youth unemployment (percentage points) for a one-point rise, with 95% confidence interval</p>
+    <div id="p-model" class="plot" role="img" aria-label="Coefficient plot of the regression"></div>
+    <div class="src" id="model-src"></div>
+    <details class="dt" data-plot="p-model"><summary>Data behind this chart</summary><div class="tbl"></div><button class="dl" type="button">Download CSV</button></details>
+  </div>
+</section>
+
+<section class="sim" id="sim" aria-labelledby="sim-h">
+  <div class="txt">
+    <div class="num">SCENARIO CONSOLE · WHAT IF LEBANON RESPONDS?</div>
+    <h2 id="sim-h">Move the levers and follow five graduate cohorts</h2>
+    <p class="note">A transparent what-if tool, not a forecast. The unemployment default is the January 2022 survey youth rate. Graduates per year and the departure share are stated assumptions; change any of them.</p>
+  </div>
+  <div class="grid">
+    <div class="knobs">
+      <h3>Starting conditions</h3>
+      <div class="knob"><label for="k-cohort">Graduates per year <output id="o-cohort"></output></label>
+        <input type="range" id="k-cohort" min="20000" max="80000" step="1000" value="50000">
+        <small>Assumption. CRDP counted 222,064 tertiary students in 2019-20 (secondary source); a four-year cycle implies about 55,000 a year.</small></div>
+      <div class="knob"><label for="k-leave">Share who emigrate within a year <output id="o-leave"></output></label>
+        <input type="range" id="k-leave" min="5" max="60" step="1" value="25">
+        <small>Assumption. 46% of university-educated adults say they want to leave; no national count of actual departures exists.</small></div>
+      <div class="knob"><label for="k-unemp">Unemployment among those who stay <output id="o-unemp"></output></label>
+        <input type="range" id="k-unemp" min="10" max="60" step="0.1" value="47.8">
+        <small>Default: CAS/ILO youth rate, January 2022.</small></div>
+      <div class="lever">
+        <h3>Response measures</h3>
+        <div class="knob"><label for="k-jobs">Digital and remote-export jobs per year <output id="o-jobs"></output></label>
+          <input type="range" id="k-jobs" min="0" max="15000" step="500" value="4000">
+          <small>Jobs filled by graduates through remote work for foreign clients, start-ups and diaspora-owned firms.</small></div>
+        <div class="knob"><label for="k-ret">Fewer departures from retention measures <output id="o-ret"></output></label>
+          <input type="range" id="k-ret" min="0" max="20" step="1" value="6">
+          <small>Percentage points off the departure rate: career services, paid internships, return grants.</small></div>
+        <div class="knob"><label for="k-align">Lower unemployment through skills alignment <output id="o-align"></output></label>
+          <input type="range" id="k-align" min="0" max="15" step="0.5" value="5">
+          <small>Points off the stayers' unemployment rate: curricula matched to demand, work-based learning, tracer data guiding programmes.</small></div>
+      </div>
+      <button id="reset" type="button">Reset to defaults</button>
+    </div>
+    <div class="res">
+      <h3>After five cohorts</h3>
+      <div class="outs">
+        <div class="out"><span>Graduates employed in Lebanon</span><b id="r-emp"></b><em id="d-emp"></em></div>
+        <div class="out"><span>Graduates who emigrated</span><b id="r-left"></b><em id="d-left"></em></div>
+        <div class="out"><span>Graduates unemployed at home</span><b id="r-unemp"></b><em id="d-unemp"></em></div>
+      </div>
+      <div class="exhibit">
+        <p class="ctitle" id="t-sim"></p><p class="csub">Cumulative graduates over five annual cohorts. Solid lines: with measures. Dashed grey: no measures.</p>
+        <div id="p-sim" class="plot" style="height:320px" role="img" aria-label="Scenario chart"></div>
+        <details class="dt" data-plot="p-sim"><summary>Data behind this chart</summary><div class="tbl"></div><button class="dl" type="button">Download CSV</button></details>
+      </div>
+      <p class="note">Simple stock model: each cohort splits into emigrants and stayers; stayers are employed at (1 − unemployment + skills-alignment points), plus new programme jobs capped at the number still unemployed. No attrition, return migration or wage effects are modelled.</p>
+    </div>
+  </div>
+</section>
+
+<section class="explore" id="explore" aria-labelledby="ex-h">
+  <div class="txt">
+    <div class="num">DATA EXPLORER · THE FULL PANEL</div>
+    <h2 id="ex-h">Compare Lebanon with any comparator, on any indicator</h2>
+    <p class="note">All 13 indicators come from the World Bank panel in the project workbook (2008-2024). Lebanon is always shown in orange; add comparators below. Labour-market series are ILO modelled estimates and understate Lebanon's post-2019 shock.</p>
+  </div>
+  <div class="bar">
+    <label for="x-ind" class="csub">Indicator</label>
+    <select id="x-ind"></select>
+    <div class="chips" id="x-ctry" role="group" aria-label="Comparators"></div>
+  </div>
+  <div class="exhibit">
+    <p class="ctitle" id="t-x"></p><p class="csub" id="s-x"></p>
+    <div id="p-x" class="plot" style="height:400px" role="img" aria-label="Indicator explorer chart"></div>
+    <div class="src" id="src-x"></div>
+    <details class="dt" data-plot="p-x"><summary>Data behind this chart</summary><div class="tbl"></div><button class="dl" type="button">Download CSV</button></details>
+  </div>
+</section>
+
+<section class="gapsec" id="gaps" aria-labelledby="g-h">
+  <div class="txt">
+    <div class="num">DATA GAPS · WHAT THE EVIDENCE CANNOT YET SHOW</div>
+    <h2 id="g-h">13 gaps, 5 of them high priority</h2>
+    <p class="note">From the Gaps register in the project workbook. Each card states why the gap matters and the next step to close it.</p>
+  </div>
+  <div class="filt" role="group" aria-label="Filter by priority">
+    <button aria-pressed="true" data-p="All">All</button><button aria-pressed="false" data-p="High">High</button>
+    <button aria-pressed="false" data-p="Medium">Medium</button><button aria-pressed="false" data-p="Low">Low</button>
+  </div>
+  <div class="glist" id="glist"></div>
+</section>
+
+<section class="sgo">
+  <div class="num">STRATEGIC READING</div>
+  <h2>Strengths to build on, opportunities to take</h2>
+  <div class="cols">
+    <div class="col s"><h3>Strengths</h3><ul>
+      <li>High tertiary enrolment: 54.4% in 2023, above every Arab comparator shown.</li>
+      <li>Research output held up: 776 scientific articles in 2010, 2,079 in 2023.</li>
+      <li>A diaspora sending US$6.7 billion in 2023, while GDP shrank.</li>
+      <li>Multilingual graduates suited to remote service work.</li>
+    </ul></div>
+    <div class="col o"><h3>Opportunities</h3><ul>
+      <li>A graduate outcomes observatory built from open data and a tracer survey with a partner university.</li>
+      <li>Diaspora hiring and mentoring networks for graduates who stay.</li>
+      <li>Remote-export jobs that earn foreign currency without emigration.</li>
+      <li>Bringing more women into work: participation was 22% in January 2022, against 66% for men.</li>
+    </ul></div>
+  </div>
+</section>
+
+<footer id="sources">
+  <h3>Sources</h3>
+  <ol>
+    <li>World Bank, World Development Indicators (labour series are ILO modelled estimates), via the open <a href="https://github.com/datasets/world-development-indicators" target="_blank" rel="noopener">datasets/world-development-indicators</a> mirror, CC BY 4.0.</li>
+    <li>CAS and ILO, <em>Labour Force and Household Living Conditions Survey 2018-2019, Lebanon</em> (values checked against the report tables).</li>
+    <li>CAS and ILO, Lebanon Follow-up Labour Force Survey, January 2022, as reported by <a href="https://blog.blominvestbank.com/44347/cas-ilo-unemployment-is-at-29-6-and-youth-unemployment-at-47-8-in-lebanon/" target="_blank" rel="noopener">BLOMInvest</a> (secondary; to be checked against the <a href="https://www.cas.gov.lb/surveys-censuses/lebanon-follow-up-labour-force-survey-2022/" target="_blank" rel="noopener">CAS tables</a>).</li>
+    <li>Arab Barometer, <a href="https://www.arabbarometer.org/2024/08/lebanon-migration-insights-2024-public-opinion-factsheet/" target="_blank" rel="noopener">Lebanon Migration Insights 2024</a>.</li>
+    <li>CRDP statistical bulletin via <a href="https://monthlymagazine.com/en/article/5081/higher-education-students-in-lebanon-35-enrolled-in-the-lebanese-university" target="_blank" rel="noopener">Information International (Sep 2021)</a> (secondary).</li>
+  </ol>
+  <p class="note">Built 02 November 2026 from the project workbook prepared 20 October 2026. Every number on this page is computed from that workbook by <code>scripts/build_dashboard.py</code>. MSBA 325 Data Visualization and Communication, Team 5: Amal Alrajab, Hassan Halabi, Hidaya Hussein, Maya Raad and Saleh Mansour.</p>
+</footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.27.0/plotly.min.js"></script>
+<script>
+const D = {"modelled":{"youth":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[18.54,15.3,16.08,17.13,18.19,19.11,19.77,20.59,21.37,22.04,22.67,23.28,26.58,25.2,22.9,22.74]},"total":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[7.67,6.36,6.77,7.35,7.95,8.48,8.84,9.31,9.79,10.26,10.76,11.3,13.25,12.71,11.11,10.98]}},"survey":{"total":{"x":[2018.5,2022.04],"y":[11.4,29.6],"label":["2018-19","Jan 2022"],"verified":[true,false]},"youth":{"x":[2018.5,2022.04],"y":[23.3,47.8],"label":["2018-19","Jan 2022"],"verified":[true,false]}},"svm":[{"indicator":"Unemployment rate, total","period":"2018-19","survey":11.4,"modelled":11.0,"gap":0.4},{"indicator":"Unemployment rate, total","period":"2022-01","survey":29.6,"modelled":11.1,"gap":18.5},{"indicator":"Unemployment rate, women","period":"2022-01","survey":32.7,"modelled":14.6,"gap":18.1},{"indicator":"Unemployment rate, men","period":"2022-01","survey":28.4,"modelled":9.8,"gap":18.6},{"indicator":"Youth unemployment (15-24)","period":"2018-19","survey":23.3,"modelled":23.0,"gap":0.3},{"indicator":"Youth unemployment (15-24)","period":"2022-01","survey":47.8,"modelled":22.9,"gap":24.9},{"indicator":"Employment-to-population ratio","period":"2018-19","survey":43.3,"modelled":43.3,"gap":0.0},{"indicator":"Employment-to-population ratio","period":"2022-01","survey":30.6,"modelled":38.6,"gap":-8.0},{"indicator":"Labour force participation, women","period":"2022-01","survey":22.2,"modelled":22.3,"gap":-0.1},{"indicator":"Labour force participation, men","period":"2022-01","survey":66.2,"modelled":66.6,"gap":-0.4}],"index":{"GDP per capita (US$)":{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[83.1,85.4,91.6,89.0,82.6,84.1,88.2,93.8,100.0,97.1,60.6,44.1,39.8,37.9,48.8],"raw":[7625.8,7835.0,8407.0,8162.4,7577.6,7714.1,8089.0,8608.2,9174.5,8905.9,5561.2,4045.4,3654.4,3477.7,4473.3]},"Tertiary enrolment (gross %)":{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[89.3,96.4,95.1,102.3,90.9,83.2,90.0,93.6,100.0,106.2,109.2,120.4,123.2,115.2],"raw":[42.2,45.5,44.9,48.3,42.9,39.3,42.5,44.2,47.2,50.1,51.6,56.9,58.2,54.4]},"Remittances received (US$)":{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[99.1,98.6,95.6,108.4,103.1,107.2,109.0,101.2,100.0,105.6,94.5,91.1,92.2,96.0],"raw":[6914055025.0,6877547082.0,6671241575.0,7566589340.0,7190794585.0,7480817047.0,7605729645.0,7061853364.0,6977962174.0,7370928673.0,6593406648.0,6353531674.0,6435335349.0,6696174320.0]},"Scientific articles":{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[40.3,44.9,52.9,56.1,62.1,66.2,74.8,79.6,100.0,102.4,113.3,110.5,103.2,107.9],"raw":[776.1,864.8,1020.5,1082.2,1197.2,1276.3,1442.7,1535.0,1927.9,1974.7,2184.8,2130.1,1990.4,2079.3]}},"lfs":{"labels":["Unemployment","Youth unemployment","Youth underutilisation","Informal employment","NEET, young women","NEET, young men"],"y2019":[11.4,23.3,29.4,54.9,26.8,16.7],"y2022":[29.6,47.8,64.2,62.4,32.1,26.1],"v2019":[true,true,true,false,true,true],"v2022":[false,false,false,false,false,false]},"emig_groups":{"All adults":38.0,"Aged 18-29":58.0,"Aged 30+":29.0,"University educated":46.0,"Less educated":33.0},"emig_trend":{"x":[2007,2012,2018,2022,2024],"y":[51.0,38.0,26.0,38.0,38.0]},"remit":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[24.66,21.35,17.98,17.23,15.16,16.14,14.95,14.98,14.87,13.32,12.71,14.28,20.79,27.47,30.66,33.35]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[13.68,12.62,12.0,11.29,11.04,14.11,15.71,12.62,10.01,9.73,9.43,9.38,10.05,10.0,8.92,7.77,7.56]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5.34,3.78,5.69,6.07,6.89,6.18,6.4,5.56,5.59,9.96,9.72,8.4,7.71,7.41,5.94,4.93,7.6]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.41,4.52,4.47,4.17,4.79,4.7,4.67,4.31,4.11,4.48,3.98,4.27,5.37,6.3,6.25,5.96,6.34]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[6.77,6.2,6.37,6.59,6.09,5.95,6.54,6.25,5.72,5.76,5.43,5.4,6.11,7.68,8.51,8.05,7.79]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.39,2.28,3.34,2.68,2.4,1.8,1.39,1.58,1.84,2.02,2.02,2.04,2.22,2.06,1.67,1.81,1.8]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[1.6,1.73,1.74,1.51,1.63,1.64,1.81,1.91,1.92,1.98,1.8,1.85,2.21,2.16,1.71,1.54,1.52]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.63,0.63,0.62,0.62,0.64,0.66,0.69,0.72,0.69,0.7,0.71,0.72,0.74,0.72,0.75,0.74,0.77]}},"edu":{"Lebanon":{"value":1.2,"year":2024},"Jordan":{"value":3.2,"year":2024},"Tunisia":{"value":6.7,"year":2023},"Morocco":{"value":6.0,"year":2023},"Cyprus":{"value":4.7,"year":2022},"Arab World":{"value":3.8,"year":2020},"World":{"value":3.6,"year":2023}},"tert":{"Lebanon":{"value":54.4,"year":2023},"Jordan":{"value":35.9,"year":2024},"Egypt":{"value":37.6,"year":2024},"Tunisia":{"value":38.1,"year":2023},"Morocco":{"value":48.2,"year":2024},"Cyprus":{"value":120.9,"year":2024},"Arab World":{"value":35.1,"year":2024},"World":{"value":43.6,"year":2024}},"lfp":{"female":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[21.59,22.2,22.82,23.45,24.09,24.74,25.4,26.11,26.89,27.67,28.47,29.29,25.94,23.88,22.34,22.23]},"male":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[66.77,67.04,67.3,67.55,67.79,68.03,68.27,68.61,69.06,69.51,69.96,70.41,71.24,69.42,66.61,66.72]},"survey":{"female":22.2,"male":66.2}},"model":{"labels":["GDP per capita growth (+1 pt)","Tertiary enrolment (+1 pt)","Female participation (+1 pt)","Remittances, % GDP (+1 pt)"],"coef":[-0.348,-0.064,0.751,0.205],"lo":[-0.57,-0.181,0.217,-0.039],"hi":[-0.127,0.053,1.284,0.45],"p":[0.002,0.285,0.006,0.099],"n":98,"r2":0.68,"years":[2008,2024]},"explorer":{"countries":["Lebanon","Jordan","Egypt","Tunisia","Morocco","Cyprus","Arab World","World"],"indicators":{"youth_unemp_total":{"label":"Youth unemployment, ages 15-24","unit":"% of youth labour force","modelled":true,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[18.543,15.297,16.079,17.134,18.192,19.112,19.772,20.591,21.37,22.039,22.668,23.28,26.576,25.203,22.9,22.744]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[30.716,31.368,30.059,30.787,28.853,29.536,27.612,30.914,35.61,35.438,38.941,37.205,42.458,43.862,42.028,38.837,39.053]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[25.536,25.219,24.583,29.426,34.439,34.12,32.198,34.16,33.655,32.644,26.252,20.631,18.463,18.21,16.342,17.153,17.291]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[28.66,31.153,29.573,42.639,38.444,34.828,36.912,34.967,35.119,35.315,34.877,37.867,41.242,39.309,37.826,38.484,38.85]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[18.2,16.646,17.621,17.931,18.642,19.162,19.97,20.826,22.265,22.167,22.431,22.475,26.795,25.053,22.713,21.974,22.372]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[8.532,13.276,15.852,21.156,27.244,38.083,35.516,32.539,28.902,25.013,20.654,16.856,18.491,17.173,18.707,16.22,12.857]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[23.478,22.502,23.203,25.482,27.719,27.669,27.401,28.921,28.387,29.117,27.568,26.102,28.097,26.73,24.1,25.314,25.369]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[14.339,15.284,15.229,15.315,15.681,15.69,15.602,15.958,16.043,16.076,15.89,15.254,17.099,15.662,14.134,13.367,13.3]}}},"unemp_total":{"label":"Unemployment, all ages","unit":"% of labour force","modelled":true,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[7.666,6.355,6.768,7.352,7.952,8.477,8.84,9.312,9.794,10.258,10.755,11.301,13.252,12.715,11.105,10.985]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[12.7,12.9,12.5,12.9,12.2,12.6,11.9,13.075,15.275,18.12,18.257,16.801,19.213,19.837,18.2,16.62,16.693]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[8.517,9.087,8.757,11.849,12.597,13.154,13.105,13.052,12.45,11.767,9.855,7.851,7.974,7.441,6.546,6.753,6.817]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[12.444,13.29,13.049,18.334,17.63,15.934,14.259,15.159,15.557,15.33,15.459,17.153,17.651,16.632,15.3,15.106,15.341]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[9.57,8.96,9.09,8.91,8.99,9.23,9.7,9.46,9.3,9.22,9.272,9.191,11.189,10.551,9.413,8.896,9.103]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.756,5.594,6.359,7.942,12.097,16.131,16.277,15.026,13.006,11.155,8.504,7.155,7.755,7.513,6.806,5.835,4.9]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[9.875,9.461,9.572,10.687,11.065,11.035,11.032,11.152,10.862,11.115,10.655,10.214,11.295,10.863,9.744,9.313,9.266]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5.824,6.41,6.281,6.149,6.152,6.099,5.957,5.999,5.971,5.898,5.76,5.588,6.588,6.046,5.235,4.85,4.806]}}},"emp_pop_ratio":{"label":"Employment-to-population ratio","unit":"% of population 15+","modelled":true,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[40.492,41.492,41.734,41.895,42.045,42.224,42.475,42.671,42.859,43.052,43.224,43.368,41.16,39.73,38.581,38.654]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[34.483,34.927,34.563,33.969,33.364,32.425,32.068,32.735,32.987,32.937,32.024,32.649,32.272,30.999,31.538,33.455,33.328]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[43.501,43.549,45.045,43.005,42.385,42.065,41.811,40.846,40.825,39.661,39.032,38.885,38.297,39.788,40.033,41.653,41.556]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[41.002,40.892,41.237,38.899,39.744,40.163,40.824,40.296,40.296,40.208,41.095,41.158,37.474,37.706,39.304,38.865,38.508]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[45.749,45.611,45.1,44.78,44.058,43.851,43.398,42.979,42.221,41.305,41.581,41.918,39.556,40.52,40.13,40.29,40.111]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[61.286,60.138,60.108,58.759,56.289,53.707,54.113,54.519,55.469,57.195,59.82,61.382,60.636,61.482,63.021,63.98,63.897]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[42.311,42.608,42.974,42.44,42.018,42.089,42.103,41.617,41.711,40.877,40.589,40.52,38.923,39.282,40.37,41.867,41.878]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[59.435,58.812,58.625,58.552,58.329,58.198,58.09,57.943,57.814,57.683,57.642,57.619,55.716,56.734,57.557,58.231,58.195]}}},"lfp_f":{"label":"Labour force participation, women","unit":"% of women 15+","modelled":true,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[21.585,22.195,22.817,23.448,24.089,24.74,25.401,26.114,26.885,27.67,28.47,29.286,25.944,23.882,22.339,22.234]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[13.939,14.589,14.464,14.424,13.864,12.946,12.283,13.599,15.051,16.612,14.649,13.685,14.975,13.964,13.922,15.933,16.008]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[21.895,22.915,23.19,22.537,22.511,23.012,23.166,22.813,23.072,22.184,18.415,15.859,14.609,15.59,15.233,18.478,18.468]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[24.815,24.773,24.792,24.765,25.576,25.447,25.733,26.072,26.647,26.477,27.383,28.272,26.274,26.698,27.519,26.781,26.635]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[26.278,25.909,25.546,25.118,24.358,24.718,24.779,24.362,23.275,22.45,22.23,21.999,20.688,20.697,19.584,19.671,19.827]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[56.119,56.692,57.839,57.516,57.202,57.37,58.944,59.097,58.281,58.922,59.627,60.096,59.05,59.534,61.219,62.495,61.408]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[20.227,20.535,20.709,20.746,20.513,20.632,20.731,20.681,20.717,19.897,18.899,18.309,17.617,17.852,17.819,19.097,19.006]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[49.908,49.687,49.35,49.155,48.898,48.749,48.594,48.546,48.463,48.373,48.305,48.284,46.98,47.892,48.316,49.029,49.078]}}},"lfp_m":{"label":"Labour force participation, men","unit":"% of men 15+","modelled":true,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[66.772,67.038,67.297,67.549,67.794,68.032,68.265,68.606,69.058,69.509,69.958,70.409,71.237,69.415,66.615,66.721]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[62.825,63.447,62.48,61.62,60.275,59.239,58.199,59.314,60.504,61.623,61.478,62.561,62.815,61.381,61.285,62.524,62.313]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[72.907,72.632,75.316,74.82,74.259,73.643,72.86,70.97,70.045,67.582,68.037,68.386,68.47,70.223,70.272,70.7,70.559]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[69.225,69.992,70.574,71.087,71.577,70.815,70.248,69.7,69.601,69.345,70.729,72.024,65.611,64.632,66.206,65.717,65.271]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[75.084,74.421,73.756,73.244,72.465,71.87,71.273,70.472,69.688,68.393,69.248,70.118,68.193,69.717,68.841,68.622,68.291]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[71.112,70.595,70.436,70.04,70.767,70.609,70.249,69.161,69.181,69.774,71.076,72.073,72.362,73.367,73.985,73.359,72.933]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[71.71,71.566,72.304,72.18,71.753,71.659,71.519,70.547,70.376,69.645,69.629,69.716,68.027,68.292,69.538,70.744,70.711]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[76.42,76.097,75.862,75.717,75.495,75.287,75.019,74.799,74.562,74.276,74.075,73.824,72.359,72.93,73.197,73.407,73.223]}}},"tertiary_enrol":{"label":"Tertiary enrolment, gross","unit":"% of age group","modelled":false,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[41.775,41.896,42.178,45.535,44.933,48.309,42.935,39.291,42.507,44.188,47.23,50.148,51.568,56.866,58.176,54.401]},"Jordan":{"x":[2008,2009,2010,2011,2012,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[41.368,42.063,37.758,37.422,43.916,36.628,34.061,28.621,31.556,30.111,30.288,30.451,32.512,33.057,35.918]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[28.686,29.269,30.073,25.59,26.227,28.348,29.113,32.885,31.873,33.102,36.123,33.623,38.774,35.119,36.462,37.901,37.578]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[33.583,35.308,36.043,35.943,36.069,34.213,33.725,33.374,31.213,30.928,30.959,31.441,32.518,33.274,37.128,38.122]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[12.637,13.099,13.99,15.854,19.047,22.407,25.311,28.552,32.095,33.474,35.319,37.721,39.686,42.532,45.94,47.469,48.184]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[40.849,47.696,48.312,46.54,45.864,47.471,52.108,59.864,68.375,79.828,86.59,93.926,102.391,106.363,105.385,107.262,120.877]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[22.424,23.282,24.045,23.592,24.967,26.611,27.95,29.416,29.97,30.708,31.83,32.164,32.787,32.668,32.71,33.246,35.08]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[27.351,28.291,29.578,31.144,32.311,33.092,35.565,36.613,37.143,37.499,37.853,38.669,39.707,41.074,42.047,43.198,43.615]}}},"edu_spend_gdp":{"label":"Public education spending","unit":"% of GDP","modelled":false,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2016,2017,2018,2019,2020,2022,2023,2024],"y":[2.015,1.766,1.613,1.653,2.149,2.434,2.178,2.216,2.617,2.52,2.435,1.332,1.504,1.225]},"Jordan":{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.169,3.599,3.637,3.784,3.767,3.713,3.453,3.213,2.955,2.988,3.553,3.138,3.153,3.515,3.234]},"Egypt":{"x":[2008],"y":[3.761]},"Tunisia":{"x":[2008,2009,2010,2012,2015,2019,2020,2021,2022,2023],"y":[6.272,6.528,5.963,5.951,6.22,6.174,7.265,6.68,6.805,6.734]},"Morocco":{"x":[2008,2009,2012,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[4.853,4.831,5.553,5.483,5.133,5.085,4.736,4.96,5.003,6.284,5.643,5.912,6.021]},"Cyprus":{"x":[2008,2009,2010,2011,2013,2014,2015,2016,2017,2019,2020,2021,2022],"y":[6.723,7.205,6.526,6.52,6.467,6.421,6.305,6.118,5.7,5.163,5.565,5.082,4.742]},"Arab World":{"x":[2008,2019,2020],"y":[4.228,3.424,3.769]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[4.228,4.66,4.19,4.068,4.035,4.345,4.2,4.211,4.154,4.093,4.183,4.158,4.342,4.199,3.861,3.569]}}},"remit_pct_gdp":{"label":"Remittances received","unit":"% of GDP","modelled":false,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[24.66,21.351,17.985,17.225,15.156,16.14,14.951,14.983,14.87,13.317,12.71,14.283,20.791,27.466,30.656,33.35]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[13.684,12.618,11.995,11.286,11.041,14.107,15.714,12.616,10.013,9.733,9.427,9.383,10.054,10.004,8.917,7.769,7.559]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5.34,3.78,5.687,6.07,6.892,6.183,6.404,5.564,5.592,9.96,9.717,8.404,7.713,7.414,5.943,4.933,7.598]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.407,4.521,4.465,4.165,4.789,4.705,4.668,4.306,4.106,4.483,3.98,4.27,5.367,6.303,6.247,5.958,6.335]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[6.771,6.198,6.367,6.592,6.086,5.946,6.538,6.252,5.721,5.756,5.434,5.401,6.11,7.679,8.511,8.046,7.788]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.393,2.278,3.34,2.679,2.4,1.799,1.391,1.576,1.838,2.024,2.024,2.044,2.221,2.065,1.674,1.806,1.799]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[1.598,1.733,1.744,1.512,1.631,1.636,1.806,1.909,1.915,1.976,1.803,1.855,2.207,2.158,1.712,1.54,1.516]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.626,0.634,0.619,0.625,0.639,0.663,0.69,0.717,0.695,0.703,0.712,0.718,0.738,0.722,0.745,0.741,0.767]}}},"gdp_pc_usd":{"label":"GDP per capita","unit":"current US$","modelled":false,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5912.045,7090.855,7625.811,7834.963,8406.984,8162.379,7577.641,7714.11,8089.012,8608.211,9174.537,8905.88,5561.192,4045.374,3654.358,3477.725,4473.271]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3669.83,3845.344,4139.043,4363.428,4593.836,4739.023,4610.605,4441.619,4366.07,4449.346,4533.977,4557.793,4411.483,4581.72,4754.414,4906.235,5073.921]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[1896.216,2161.64,2455.082,2590.644,2996.068,3025.526,3133.391,3306.982,3270.629,2395.103,2484.703,2962.989,3511.114,3827.354,4233.308,3456.79,3338.474]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4255.05,4080.09,4291.861,4420.648,4297.268,4369.793,4458.979,4014.948,3847.804,3619.032,3628.104,3528.872,3548.654,3906.939,3707.293,3951.117,4187.641]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3183.2,3119.589,3067.985,3301.989,3164.177,3379.743,3435.407,3146.248,3140.855,3296.527,3501.698,3508.098,3268.03,3785.936,3463.138,3813.726,4153.194]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[35541.887,32236.463,31105.027,32485.805,28991.93,27764.727,26993.096,23088.43,24280.045,26247.465,29120.387,29227.168,28130.33,32937.836,33231.051,36623.707,38674.312]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[6100.539,5142.656,5957.505,6924.203,7392.556,7384.792,7347.621,6299.878,6051.261,6105.922,6708.531,6683.67,5749.752,6708.208,7960.812,7504.356,7602.411]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[9425.738,8827.043,9555.065,10496.931,10597.846,10759.346,10912.245,10191.975,10239.466,10784.395,11344.728,11417.596,10999.492,12472.907,12876.238,13313.858,13717.091]}}},"gdp_pc_growth":{"label":"GDP per capita growth","unit":"annual %","modelled":false,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[7.27,8.754,6.926,-0.216,-0.172,-5.35,-7.261,-1.485,3.954,3.572,1.001,-3.87,-20.129,-7.257,-1.078,-1.259]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.726,2.79,0.137,0.219,0.989,-2.586,-6.022,-5.59,-2.711,0.192,-0.303,-0.247,-2.863,1.772,0.916,1.239,1.481]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5.174,2.716,3.15,-0.355,-0.043,-0.143,0.6,2.204,2.245,2.12,3.352,3.716,1.881,1.762,5.016,2.023,0.64]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.24,1.998,1.868,-3.127,3.047,1.219,1.875,-0.165,0.008,1.183,1.604,0.613,-9.728,4.088,2.153,-0.482,0.98]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.25,2.344,2.08,4.066,1.664,2.758,1.439,3.106,-0.694,3.784,1.914,1.816,-8.139,7.061,0.779,2.588,2.775]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[1.077,-4.61,-0.358,-2.113,-4.907,-6.48,-1.489,3.195,6.018,4.853,5.051,4.468,-4.514,9.747,6.279,1.639,2.297]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[2.918,-1.809,2.77,1.484,3.009,0.042,0.28,0.841,1.2,-0.684,0.863,-0.149,-7.272,2.862,4.577,-0.632,-0.466]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.807,-2.547,3.26,2.087,1.446,1.628,1.896,1.9,1.603,2.288,2.164,1.613,-3.848,5.53,2.51,1.997,1.89]}}},"inflation":{"label":"Inflation, consumer prices","unit":"annual %","modelled":false,"data":{"Lebanon":{"x":[2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[1.195,3.983,4.971,6.581,4.821,1.855,-3.749,-0.783,4.321,6.077,3.005,84.864,154.756,171.205,221.342,45.243]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[13.971,-0.739,4.846,4.162,4.515,4.825,2.899,-0.877,-0.778,3.324,4.462,0.762,0.333,1.346,4.229,2.085,1.557]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[18.317,11.763,11.265,10.065,7.112,9.47,10.07,10.37,13.814,29.507,14.401,9.153,5.045,5.214,13.896,33.885,28.271]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.345,3.665,3.339,3.24,4.612,5.316,4.626,4.437,3.629,5.309,7.308,6.72,5.634,5.706,8.306,9.329,7.207]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.715,0.972,0.994,0.907,1.287,1.881,0.442,1.558,1.635,0.755,1.804,0.303,0.706,1.402,6.657,6.091,0.985]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.669,0.326,2.43,3.289,2.389,-0.399,-1.355,-2.097,-1.429,0.532,1.435,0.25,-0.638,2.446,8.395,3.541,1.8]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[11.271,2.921,3.911,4.753,4.612,3.254,2.899,1.831,2.228,2.069,2.309,1.336,1.447,2.868,5.172,4.0,2.309]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[8.95,2.86,3.326,4.801,3.725,2.652,2.394,1.437,1.597,2.223,2.443,2.206,1.905,3.475,8.082,5.799,3.014]}}},"sci_articles":{"label":"Scientific and technical articles","unit":"articles","modelled":false,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[729.88,781.01,776.07,864.76,1020.47,1082.25,1197.19,1276.35,1442.71,1535.0,1927.89,1974.74,2184.85,2130.13,1990.44,2079.31]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[1221.17,1270.05,1404.03,1374.11,1336.76,1345.81,1305.98,1379.93,1617.14,1960.83,2335.49,2819.31,3205.55,3852.39,4732.04,5419.23]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[4819.59,5969.79,6487.07,7082.67,8162.57,8371.07,8857.25,9538.24,10948.53,11384.08,12832.25,14815.5,17901.1,20781.71,22502.97,22854.4]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[2721.2,3175.0,3412.95,3644.66,3733.67,4176.17,4473.86,4790.14,5316.45,5818.15,5100.72,5046.47,4851.93,4958.99,5501.68,5492.92]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[1189.79,1444.37,1553.75,1822.04,2005.17,2012.75,2446.86,2287.8,3521.33,3935.19,4565.17,5258.82,6175.71,6993.78,7952.97,9724.77]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[502.56,656.16,707.67,749.96,788.23,954.91,895.31,924.33,1058.31,1225.36,1239.23,1310.55,1415.76,1628.11,1725.47,1764.12]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[18190.36,21599.46,23960.58,26810.9,30393.95,33430.07,36024.2,38832.86,44222.06,48795.97,53706.7,63139.98,74160.08,87392.18,100156.78,110915.53]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[1725502.095,1827111.006,1909442.193,2003515.269,2062566.086,2125847.596,2195343.61,2252543.21,2336756.551,2425390.128,2522113.114,2708530.722,2868012.709,3111012.818,3220952.461,3271296.244]}}},"net_migration":{"label":"Net migration","unit":"people","modelled":false,"data":{"Lebanon":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[430.0,-2700.0,-40915.0,2246.0,124427.0,733500.0,301111.0,-239829.0,-247921.0,-253664.0,-259700.0,-266992.0,-47787.0,-27290.0,-27507.0,-34193.0,-17267.0]},"Jordan":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[767.0,-49687.0,4872.0,7057.0,-146181.0,609631.0,635528.0,490844.0,31046.0,12873.0,32062.0,-23156.0,6745.0,6573.0,-17445.0,-17445.0,-156369.0]},"Egypt":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[-192199.0,-175191.0,-194100.0,126170.0,-2626.0,130305.0,-92801.0,-193298.0,-71604.0,-80000.0,20788.0,7050.0,6016.0,6161.0,13707.0,305006.0,123884.0]},"Tunisia":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[-17742.0,-13512.0,-14168.0,-21935.0,-26059.0,-17020.0,-26586.0,-25229.0,-23827.0,-22365.0,-21012.0,-19612.0,-19188.0,-9190.0,-14001.0,-14001.0,-15221.0]},"Morocco":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[-78912.0,-82203.0,-70510.0,-67447.0,-65251.0,-67096.0,-72065.0,-81248.0,-39302.0,-60472.0,-88159.0,-91217.0,-35474.0,-47902.0,-38594.0,-39650.0,-46802.0]},"Cyprus":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[11887.0,11555.0,11793.0,12566.0,12237.0,11914.0,11599.0,11277.0,10951.0,10632.0,10311.0,9983.0,9653.0,9341.0,9014.0,8697.0,8138.0]},"Arab World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[872244.0,504368.0,156222.0,223817.0,577194.0,735533.0,575497.0,364082.0,132220.0,-994068.0,-591361.0,-51896.0,-280925.0,471864.0,2684826.0,482824.0,519176.0]},"World":{"x":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]}}}}},"gaps":[{"n":1,"gap":"Time to first job and school-to-work transition","why":"The project question is how graduates move into work. No source here measures it.","have":"Only passing mention of school-to-work transition in the 2018-19 CAS report.","next":"Specify a graduate tracer pilot with a partner university (AUB proposed) to record time to first job and employment by programme.","priority":"High"},{"n":2,"gap":"Graduate-specific unemployment","why":"Youth (15-24) unemployment includes people who are not graduates and misses graduates older than 24.","have":"Youth unemployment series; one 'advanced education' value for Lebanon in the 2015-21 World Bank table (about 14.5%, year not shown).","next":"Extract unemployment by education level from the 2018-19 report (Figure 3.18) and the Jan 2022 tables; state clearly that it is not a graduate rate.","priority":"High"},{"n":3,"gap":"January 2022 CAS tables not downloaded","why":"The 2022 numbers (29.6%, 47.8%, NEET, informality) are the headline post-crisis figures but currently come from a Blom Invest Bank blog.","have":"Values in Survey_Figures marked 'Secondary source'.","next":"Download the tables from the CAS January 2022 survey page, or the ILO report, and confirm each value.","priority":"High"},{"n":4,"gap":"Modelled and survey estimates diverge after 2019","why":"WDI modelled unemployment stays near 11% in 2022 while the survey reports 29.6%. Trend charts built only on WDI would understate the shock.","have":"Survey_vs_Modelled tab.","next":"Show survey points separately from the modelled line and label both clearly.","priority":"High"},{"n":5,"gap":"Unemployment by education over time","why":"Only 2018-19 (and a single 2015-21 snapshot) exist, so no 2008-2023 trend by education level.","have":"2_5_Unemployment.xls and the 2018-19 report.","next":"Load the snapshot and the report's education breakdown into this file as separate, labelled survey points.","priority":"Medium"},{"n":6,"gap":"NEET series","why":"NEET shows how many young people are neither studying nor working.","have":"Two survey points (2018-19 and Jan 2022) by sex; no WDI series in the panel.","next":"Pull the WDI NEET series (SL.UEM.NEET.ZS) for Lebanon and comparators and check coverage.","priority":"Medium"},{"n":7,"gap":"2024 labour-market values","why":"The plan is to show 2024 where available.","have":"In WDI, 2024 has only net migration and education spending; unemployment, participation and enrolment stop at 2023.","next":"Recheck WDI after its next update; keep 2024 separate.","priority":"Medium"},{"n":8,"gap":"Thin series in the panel","why":"Some context variables have too few points for trends.","have":"Lebanon has only 3 migrant stock observations and 6 for tertiary spending per student; Egypt has 1 education spending value.","next":"Avoid trend charts for these, or drop them.","priority":"Low"},{"n":9,"gap":"Recorded departures","why":"Arab Barometer measures wishes to emigrate, not people leaving.","have":"Net migration (UN estimate) plus survey intentions.","next":"Keep intentions and net migration in separate charts; look for departure data from official sources.","priority":"Medium"},{"n":10,"gap":"Emigration intention by employment status","why":"We know intention by education and age, but not for graduates who are unemployed or underemployed.","have":"Topline Arab Barometer figures only.","next":"Arab Barometer microdata (Wave VIII) could give this crosstab; confirm permission and scope.","priority":"Low"},{"n":11,"gap":"University or programme-level data","why":"Career-services teams plan by institution and programme.","have":"Only national tertiary student counts for 2019-20.","next":"Ask the first partner university which records it can share, with permission.","priority":"High"},{"n":12,"gap":"CAS 2018-19 education tables not yet loaded","why":"The 24 education tables (attainment, enrolment) support the education side of the dashboard.","have":"LFHLCS_2018_2019_Education.xlsx received but not added to this file.","next":"Select the attainment tables for ages 20-34 and add them as a separate tab.","priority":"Medium"},{"n":13,"gap":"Some survey rows rely on secondary sources","why":"UNDP blog, Blom blog and a magazine article are not primary sources.","have":"See Survey_Figures column H.","next":"Replace with the primary CAS, ILO or CRDP tables as they are collected.","priority":"Medium"}],"simdefault":{"unemp":47.8,"students":222064,"want_univ":46.0}};
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function T(){return{ink:css('--ink'),ink2:css('--ink-2'),rule:css('--rule'),panel:css('--panel'),blue:css('--blue'),blueSoft:css('--blue-soft'),or:css('--orange'),orInk:css('--orange-ink'),orSoft:css('--orange-soft'),grey:css('--grey'),greySoft:css('--grey-soft'),muted:css('--muted')}}
+const MONO='IBM Plex Mono, monospace';
+const narrow=()=>window.innerWidth<520;
+function base(t,ex){const ax={gridcolor:t.rule,linecolor:t.rule,zeroline:false,tickfont:{family:MONO,size:11},showgrid:false};
+ return Object.assign({paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{family:'Figtree, system-ui, sans-serif',color:t.ink2,size:12},
+  margin:{l:48,r:16,t:12,b:40},hoverlabel:{font:{family:MONO}},xaxis:Object.assign({},ax),yaxis:Object.assign({},ax,{showgrid:true}),
+  showlegend:false,legend:{orientation:'h',y:-0.2,x:0,font:{size:12}}},ex||{})}
+const ax=(t,k,o)=>Object.assign(base(t)[k],o);
+const CFG={displayModeBar:false,responsive:true};
+const st={gap:'youth',idx:'idx',emig:'grp',inv:'edu'};
+const $=id=>document.getElementById(id);
+function head(k,title,sub,src){$('t-'+k).textContent=title;$('s-'+k).textContent=sub;if(src!==undefined)$('src-'+k).textContent=src}
+function press(ids,on){ids.forEach(i=>$(i).setAttribute('aria-pressed',i===on?'true':'false'))}
+// Oct 2019 marker: vertical rule plus label (continuity of the timeline, one annotation, no shading clutter)
+function crisis(t,ymaxPaper){return{shapes:[{type:'line',x0:2019.8,x1:2019.8,yref:'paper',y0:0,y1:ymaxPaper||1,line:{color:t.muted,width:1,dash:'dot'}}],
+ annotations:[{x:2019.8,yref:'paper',y:1,text:'Oct 2019 crisis',showarrow:false,xanchor:'right',font:{family:MONO,size:10,color:t.muted}}]}}
+// Direct end labels replace legends (proximity + similarity: label next to its line, in its colour)
+function endLabel(x,y,text,color,yshift){return{x:x[x.length-1],y:y[y.length-1],text,showarrow:false,xanchor:'left',xshift:6,yshift:yshift||0,font:{size:12,color,family:'Figtree'}}}
+
+/* ---------- Exhibit 1 ---------- */
+function drawGap(){const t=T();const m=D.modelled,s=D.survey;
+ if(st.gap!=='all'){const k=st.gap,ml=k==='youth'?m.youth:m.total,sv=s[k];
+  const sym=sv.verified.map(v=>v?'diamond':'diamond-open');
+  const tr=[{x:ml.x,y:ml.y,name:'World Bank WDI, ILO modelled',mode:'lines',line:{color:t.blue,width:2.5},hovertemplate:'%{x}: %{y:.1f}%<extra>ILO modelled</extra>'},
+   {x:sv.x,y:sv.y,name:'CAS/ILO national survey',mode:'markers+text',marker:{symbol:sym,size:15,color:t.or,line:{color:t.or,width:2.5}},text:sv.y.map((v,i)=>v+'%'),textposition:'top left',textfont:{color:t.orInk,family:MONO,size:12},customdata:sv.label,hovertemplate:'%{customdata}: %{y}%<extra>CAS/ILO survey</extra>'}];
+  const m22=ml.y[ml.x.indexOf(2022)],s22=sv.y[1],c=crisis(t);
+  c.shapes.push({type:'line',x0:2022.3,x1:2022.3,y0:m22,y1:s22,line:{color:t.orInk,width:1.5}});
+  c.annotations.push({x:2022.35,y:(m22+s22)/2,text:'gap<br>'+(s22-m22).toFixed(1)+' pts',showarrow:false,xanchor:'left',font:{family:MONO,size:11,color:t.orInk}},
+   endLabel(ml.x,ml.y,'Modelled',t.blue,-14));
+  const lbl=k==='youth'?'Youth unemployment (15-24)':'Unemployment (all ages 15+)';
+  const ratio=s22/m22,rt=ratio>=2.75?'almost three times':ratio>=2.25?'two and a half times':ratio>=1.85?'twice':ratio.toFixed(1)+' times';
+  head('gap','In January 2022 the survey found '+(k==='youth'?'youth unemployment ':'unemployment ')+rt+' the modelled estimate',
+   lbl+', % of labour force, '+ml.x[0]+'-'+ml.x[ml.x.length-1]+'. Diamonds: survey (open = secondary source, not yet checked).',
+   'Line: World Bank WDI, ILO modelled estimates. Diamonds: CAS/ILO LFHLCS 2018-19 (verified in report) and Follow-up LFS Jan 2022 (via BLOMInvest).');
+  Plotly.react('p-gap',tr,base(t,Object.assign(c,{margin:{l:44,r:70,t:16,b:36},yaxis:ax(t,'yaxis',{range:[0,k==='youth'?56:34],ticksuffix:'%'}),xaxis:ax(t,'xaxis',{range:[2007.6,2023.6],dtick:2})})),CFG)}
+ else{const rows=D.svm.filter(r=>r.period==='2022-01');const lab=rows.map(r=>r.indicator);
+  const tr=[{x:rows.flatMap(r=>[r.modelled,r.survey,null]),y:rows.flatMap(r=>[r.indicator,r.indicator,null]),mode:'lines',line:{color:t.greySoft,width:3},hoverinfo:'skip',name:'connector',meta:'skip',showlegend:false},
+   {x:rows.map(r=>r.modelled),y:lab,mode:'markers',name:'ILO modelled, 2022',marker:{symbol:'circle',size:12,color:t.blue},hovertemplate:'%{y}<br>modelled %{x:.1f}%<extra></extra>'},
+   {x:rows.map(r=>r.survey),y:lab,mode:'markers+text',name:'CAS/ILO survey, Jan 2022',marker:{symbol:'diamond-open',size:14,color:t.or,line:{width:2.5,color:t.or}},text:rows.map(r=>(r.gap>0?'+':'')+r.gap.toFixed(1)+' pts'),textposition:'middle right',textfont:{family:MONO,size:11,color:t.orInk},hovertemplate:'%{y}<br>survey %{x:.1f}%<extra></extra>'}];
+  head('gap','The modelled series misses the unemployment shock but matches participation',
+   'Lebanon, January 2022 survey (orange diamond) against the 2022 ILO modelled value (blue circle), %. Label: survey minus modelled.',
+   'Survey_vs_Modelled tab of the project workbook: CAS/ILO Follow-up LFS Jan 2022 (secondary source) and World Bank WDI, 2022.');
+  Plotly.react('p-gap',tr,base(t,{showlegend:true,margin:{l:narrow()?150:210,r:20,t:8,b:60},xaxis:ax(t,'xaxis',{range:[0,85],ticksuffix:'%',showgrid:true}),yaxis:ax(t,'yaxis',{autorange:'reversed',showgrid:false}),legend:{orientation:'h',y:-0.16,x:0}}),CFG)}}
+
+/* ---------- Exhibit 2 ---------- */
+function drawIdx(){const t=T();
+ if(st.idx==='idx'){const sty={'GDP per capita (US$)':[t.or,3.2,'solid'],'Tertiary enrolment (gross %)':[t.blue,3.2,'solid'],'Remittances received (US$)':[t.grey,1.8,'dash'],'Scientific articles':[t.grey,1.8,'dot']};
+  const short={'GDP per capita (US$)':'GDP per capita','Tertiary enrolment (gross %)':'Tertiary enrolment','Remittances received (US$)':'Remittances','Scientific articles':'Articles'};
+  const tr=Object.entries(D.index).map(([k,v])=>({x:v.x,y:v.y,name:k,mode:'lines',line:{color:sty[k][0],width:sty[k][1],dash:sty[k][2]},customdata:v.raw,hovertemplate:'%{x}: index %{y}<br>value %{customdata:,.1f}<extra>'+k+'</extra>'}));
+  const c=crisis(t);c.shapes.push({type:'line',x0:2010,x1:2024,y0:100,y1:100,line:{color:t.muted,width:1}});
+  const sh={'Remittances received (US$)':-4,'Scientific articles':-14,'Tertiary enrolment (gross %)':6};
+  Object.entries(D.index).forEach(([k,v])=>c.annotations.push(endLabel(v.x,v.y,short[k],k.startsWith('GDP')?t.orInk:k.startsWith('Tert')?t.blue:t.muted,sh[k]||0)));
+  head('idx','Enrolment kept rising while GDP per capita fell by almost two thirds','Lebanon, index 2018 = 100, 2010-2024. Hover for actual values.','World Bank WDI: tertiary enrolment (gross %), GDP per capita (current US$), personal remittances (current US$), scientific and technical articles.');
+  Plotly.react('p-idx',tr,base(t,Object.assign(c,{margin:{l:44,r:112,t:16,b:36},yaxis:ax(t,'yaxis',{title:{text:'Index (2018 = 100)',font:{size:11}},rangemode:'tozero'}),xaxis:ax(t,'xaxis',{dtick:2,range:[2009.6,2024.4]})})),CFG)}
+ else{const L=D.lfs;
+  const tr=[{x:L.labels.flatMap((l,i)=>[L.y2019[i],L.y2022[i],null]),y:L.labels.flatMap(l=>[l,l,null]),mode:'lines',line:{color:t.greySoft,width:3},hoverinfo:'skip',name:'connector',meta:'skip',showlegend:false},
+   {x:L.y2019,y:L.labels,mode:'markers+text',name:'2018-19',marker:{size:11,color:t.blue},text:L.y2019.map(v=>v+''),textposition:'middle left',textfont:{family:MONO,size:11,color:t.blue},hovertemplate:'%{y}: %{x}%<extra>2018-19</extra>'},
+   {x:L.y2022,y:L.labels,mode:'markers+text',name:'January 2022',marker:{symbol:L.v2022.map(v=>v?'diamond':'diamond-open'),size:14,color:t.or,line:{width:2.5,color:t.or}},text:L.y2022.map(v=>v+'%'),textposition:'middle right',textfont:{family:MONO,size:11,color:t.orInk},hovertemplate:'%{y}: %{x}%<extra>Jan 2022</extra>'}];
+  head('idx','Every labour indicator worsened between the two surveys','Lebanon, % (NEET: % of age group 15-24). Blue: 2018-19. Orange: January 2022 (open diamond = secondary source).','CAS/ILO LFHLCS 2018-19 (verified in report, except informal employment) and Follow-up LFS Jan 2022 (via BLOMInvest, not yet checked).');
+  Plotly.react('p-idx',tr,base(t,{showlegend:true,margin:{l:narrow()?130:160,r:30,t:8,b:60},xaxis:ax(t,'xaxis',{range:[0,75],ticksuffix:'%',showgrid:true}),yaxis:ax(t,'yaxis',{autorange:'reversed',showgrid:false}),legend:{orientation:'h',y:-0.16,x:0}}),CFG)}}
+
+/* ---------- Exhibit 3 ---------- */
+function drawEmig(){const t=T();let tr,lay;
+ if(st.emig==='grp'){const k=Object.keys(D.emig_groups),v=Object.values(D.emig_groups),hi=n=>n==='University educated'||n==='Aged 18-29';
+  tr=[{type:'bar',x:v,y:k,orientation:'h',name:'Want to emigrate',marker:{color:k.map(n=>hi(n)?t.or:t.greySoft)},text:v.map(x=>x+'%'),textposition:'outside',textfont:{family:MONO,color:t.ink},hovertemplate:'%{y}: %{x}%<extra></extra>',cliponaxis:false}];
+  lay=base(t,{margin:{l:130,r:40,t:8,b:36},xaxis:ax(t,'xaxis',{range:[0,70],ticksuffix:'%',showticklabels:false}),yaxis:ax(t,'yaxis',{autorange:'reversed',showgrid:false})});
+  head('emig','Young and university-educated Lebanese are the most likely to want to leave','Lebanese citizens who say they want to emigrate, %, 2024','Arab Barometer Wave VIII (2024), Lebanon Migration Insights factsheet. Verified against the factsheet.')}
+ else{const e=D.emig_trend;tr=[{x:e.x,y:e.y,mode:'lines+markers+text',name:'All adults',line:{color:t.blue,width:3},marker:{size:9,color:e.x.map(y=>y>=2022?t.or:t.blue)},text:e.y.map(v=>v+'%'),textposition:'top center',textfont:{family:MONO,color:t.ink},hovertemplate:'%{x}: %{y}%<extra>all adults</extra>'}];
+  lay=base(t,Object.assign(crisis(t),{xaxis:ax(t,'xaxis',{dtick:2,range:[2006,2025]}),yaxis:ax(t,'yaxis',{range:[0,62],ticksuffix:'%'})}));
+  const i18=e.x.indexOf(2018);head('emig','The wish to emigrate rose again after 2019, from '+e.y[i18]+'% in 2018 to '+e.y[e.y.length-1]+'% in '+e.x[e.x.length-1],'Lebanese citizens who say they want to emigrate, all adults, %, 2007-2024 (survey waves only)','Arab Barometer waves 2007-2024, as shown in the 2024 factsheet.')}
+ Plotly.react('p-emig',tr,lay,CFG)}
+
+/* ---------- Exhibit 4 ---------- */
+function drawRemit(){const t=T();const names=Object.keys(D.remit);const ann=[];
+ const tr=names.map(n=>{const s=D.remit[n],L=n==='Lebanon',J=n==='Jordan';
+  if(L)ann.push(endLabel(s.x,s.y,'Lebanon',t.orInk));if(J)ann.push(endLabel(s.x,s.y,'Jordan',t.blue));
+  return{x:s.x,y:s.y,name:n,mode:'lines',line:{width:L?3.5:J?2.2:1.3,color:L?t.or:J?t.blue:t.grey,dash:(n==='World'||n==='Arab World')?'dot':'solid'},opacity:L||J?1:.7,hovertemplate:'%{x}: %{y:.1f}% of GDP<extra>'+n+'</extra>'}});
+ const c=crisis(t);c.annotations.push(...ann);
+ Plotly.react('p-remit',tr,base(t,Object.assign(c,{margin:{l:40,r:70,t:16,b:36},yaxis:ax(t,'yaxis',{ticksuffix:'%',rangemode:'tozero'}),xaxis:ax(t,'xaxis',{dtick:2})})),CFG)}
+
+/* ---------- Exhibit 5 ---------- */
+function drawInv(){const t=T();let tr,lay;
+ if(st.inv==='edu'||st.inv==='tert'){const src=st.inv==='edu'?D.edu:D.tert;const e=Object.entries(src).sort((a,b)=>a[1].value-b[1].value);
+  const col=n=>n==='Lebanon'?t.or:n==='World'?t.blue:t.greySoft;
+  tr=[{type:'bar',x:e.map(d=>d[1].value),y:e.map(d=>d[0]+' ('+d[1].year+')'),orientation:'h',name:st.inv==='edu'?'% of GDP':'% gross enrolment',marker:{color:e.map(d=>col(d[0]))},text:e.map(d=>d[1].value.toFixed(1)+'%'),textposition:'outside',textfont:{family:MONO,color:t.ink},cliponaxis:false,hovertemplate:'%{y}: %{x:.1f}%<extra></extra>'}];
+  lay=base(t,{margin:{l:130,r:50,t:8,b:36},xaxis:ax(t,'xaxis',{showticklabels:false,range:[0,st.inv==='edu'?8:135]}),yaxis:ax(t,'yaxis',{showgrid:false})});
+  if(st.inv==='edu')head('inv','Lebanon spends the least on public education of any comparator','Government expenditure on education, % of GDP, latest year available (in brackets). Egypt omitted: latest value 2008.','World Bank WDI, latest year per economy since 2015.');
+  else head('inv','Lebanon enrols more young people in university than its Arab neighbours','Gross tertiary enrolment ratio, %, latest year (in brackets). Cyprus exceeds 100% because of international students.','World Bank WDI, latest year per economy.')}
+ else{const f=D.lfp.female,m=D.lfp.male;
+  tr=[{x:m.x,y:m.y,name:'Men',mode:'lines',line:{color:t.blue,width:3},hovertemplate:'%{x}: %{y:.1f}%<extra>men, modelled</extra>'},
+   {x:f.x,y:f.y,name:'Women',mode:'lines',line:{color:t.or,width:3},fill:'tonexty',fillcolor:t.greySoft+'55',hovertemplate:'%{x}: %{y:.1f}%<extra>women, modelled</extra>'},
+   {x:[2022.04,2022.04],y:[D.lfp.survey.male,D.lfp.survey.female],name:'Survey, Jan 2022',mode:'markers',marker:{symbol:'diamond-open',size:12,color:t.ink2,line:{width:2}},hovertemplate:'Jan 2022 survey: %{y}%<extra></extra>'}];
+  const c=crisis(t);c.annotations.push(endLabel(m.x,m.y,'Men',t.blue),endLabel(f.x,f.y,'Women',t.orInk));
+  lay=base(t,Object.assign(c,{margin:{l:44,r:64,t:16,b:36},yaxis:ax(t,'yaxis',{ticksuffix:'%',range:[0,80]}),xaxis:ax(t,'xaxis',{dtick:2})}));
+  head('inv',Math.round(100-D.lfp.survey.female)+'% of Lebanese women were outside the labour force in January 2022','Labour force participation, ages 15+, %, 2008-2023. Lines: ILO modelled. Open diamonds: January 2022 survey.','World Bank WDI (ILO modelled) and CAS/ILO Follow-up LFS Jan 2022 (secondary source).')}
+ Plotly.react('p-inv',tr,lay,CFG)}
+
+/* ---------- Model ---------- */
+function drawModel(){const t=T(),M=D.model;const rv=a=>a.slice().reverse();const lab=rv(M.labels),c=rv(M.coef),lo=rv(M.lo),hi=rv(M.hi),p=rv(M.p);
+ const sig=p.map(v=>v<0.05);
+ const tr=[{x:c,y:lab,mode:'markers',type:'scatter',name:'Coefficient',marker:{size:13,symbol:sig.map(s=>s?'circle':'circle-open'),color:c.map(v=>v<0?t.blue:t.or),line:{width:2.5,color:c.map(v=>v<0?t.blue:t.or)}},
+  error_x:{type:'data',symmetric:false,array:hi.map((h,i)=>h-c[i]),arrayminus:lo.map((l,i)=>c[i]-l),color:t.grey,thickness:1.5,width:6},
+  customdata:p.map((v,i)=>[v,lo[i],hi[i]]),hovertemplate:'%{y}<br>%{x:+.2f} pts youth unemployment<br>95%% CI %{customdata[1]:.2f} to %{customdata[2]:.2f}<br>p = %{customdata[0]}<extra></extra>'}];
+ Plotly.react('p-model',tr,base(t,{margin:{l:narrow()?160:205,r:20,t:8,b:44},shapes:[{type:'line',x0:0,x1:0,yref:'paper',y0:0,y1:1,line:{color:t.ink2,width:1}}],xaxis:ax(t,'xaxis',{showgrid:true,title:{text:'Change in youth unemployment (pts)',font:{size:11}}}),yaxis:ax(t,'yaxis',{showgrid:false})}),CFG);
+ const sg=M.labels.filter((l,i)=>M.p[i]<0.05).map((l,i)=>{l=l.replace(/ \(\+1 pt\)/,'').replace(/, % GDP/,'');return i?l.charAt(0).toLowerCase()+l.slice(1):l});
+ $('t-model').textContent=sg.length?(sg.length===1?'Only ':'')+sg.join(' and ')+(sg.length===1?' has an interval':' have intervals')+' that exclude'+(sg.length===1?'s':'')+' zero':'No coefficient is significant at 5%';
+ $('model-src').textContent='OLS with country fixed effects, robust (HC1) errors; n = '+M.n+' country-years, '+M.years[0]+'-'+M.years[1]+', R² = '+M.r2+'. Data: World Bank WDI panel in the project workbook.'}
+
+/* ---------- Simulator ---------- */
+const K=['cohort','leave','unemp','jobs','ret','align'];const DEF={};
+K.forEach(k=>DEF[k]=$('k-'+k).value);
+const fmt=n=>Math.round(n).toLocaleString('en-GB');
+function run(c,leave,un,jobs,ret,align){let emp=0,left=0,unemp=0;const s=[];
+ for(let y=1;y<=5;y++){const l=c*Math.max(0,leave-ret)/100;const stay=c-l;
+  let e=stay*(1-Math.max(0,un-align)/100);let u=stay-e;const nj=Math.min(jobs,u);e+=nj;u-=nj;
+  emp+=e;left+=l;unemp+=u;s.push({y:'Year '+y,emp,left,unemp})}
+ return{emp,left,unemp,s}}
+function drawSim(){const t=T();const v=Object.fromEntries(K.map(k=>[k,+$('k-'+k).value]));
+ $('o-cohort').textContent=fmt(v.cohort);$('o-leave').textContent=v.leave+'%';$('o-unemp').textContent=v.unemp+'%';
+ $('o-jobs').textContent=fmt(v.jobs);$('o-ret').textContent='−'+v.ret+' pts';$('o-align').textContent='−'+v.align+' pts';
+ const b=run(v.cohort,v.leave,v.unemp,0,0,0),r=run(v.cohort,v.leave,v.unemp,v.jobs,v.ret,v.align);
+ const set=(id,x,bx,goodUp)=>{$('r-'+id).textContent=fmt(x);const d=x-bx;const el=$('d-'+id);
+  el.textContent=(d>=0?'+':'−')+fmt(Math.abs(d))+' vs no measures';el.className=(Math.round(d)===0?'':((d>0)===goodUp?'up':'down'))};
+ set('emp',r.emp,b.emp,true);set('left',r.left,b.left,false);set('unemp',r.unemp,b.unemp,false);
+ const x=r.s.map(d=>d.y);
+ const tr=[{x,y:b.s.map(d=>d.emp),name:'Employed at home, no measures',mode:'lines',line:{color:t.grey,width:2,dash:'dash'},hovertemplate:'%{x}: %{y:,.0f}<extra>employed, no measures</extra>'},
+  {x,y:r.s.map(d=>d.emp),name:'Employed at home, with measures',mode:'lines+markers',line:{color:t.blue,width:3},marker:{size:7},hovertemplate:'%{x}: %{y:,.0f}<extra>employed, with measures</extra>'},
+  {x,y:b.s.map(d=>d.left),name:'Emigrated, no measures',mode:'lines',line:{color:t.grey,width:2,dash:'dash'},hovertemplate:'%{x}: %{y:,.0f}<extra>emigrated, no measures</extra>'},
+  {x,y:r.s.map(d=>d.left),name:'Emigrated, with measures',mode:'lines+markers',line:{color:t.or,width:3},marker:{size:7,symbol:'diamond'},hovertemplate:'%{x}: %{y:,.0f}<extra>emigrated, with measures</extra>'}];
+ const L=a=>a[a.length-1];
+ $('t-sim').textContent='With these measures, '+fmt(r.emp-b.emp)+' more graduates work in Lebanon after five years';
+ Plotly.react('p-sim',tr,base(t,{margin:{l:60,r:110,t:10,b:36},annotations:[endLabel(x,r.s.map(d=>d.emp),'Employed',t.blue),endLabel(x,r.s.map(d=>d.left),'Emigrated',t.orInk)],
+  yaxis:ax(t,'yaxis',{title:{text:'Cumulative graduates',font:{size:11}},tickformat:',.0f',rangemode:'tozero'})}),CFG)}
+K.forEach(k=>$('k-'+k).addEventListener('input',drawSim));
+$('reset').addEventListener('click',()=>{K.forEach(k=>$('k-'+k).value=DEF[k]);drawSim()});
+
+/* ---------- Explorer ---------- */
+const X={ind:'youth_unemp_total',on:new Set(['Jordan','Egypt','Arab World'])};
+(function initX(){const sel=$('x-ind');Object.entries(D.explorer.indicators).forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.textContent=v.label+(v.modelled?' (modelled)':'');sel.appendChild(o)});
+ sel.value=X.ind;sel.addEventListener('change',()=>{X.ind=sel.value;drawX()});
+ const box=$('x-ctry');D.explorer.countries.forEach(c=>{const b=document.createElement('button');b.type='button';b.textContent=c;
+  if(c==='Lebanon'){b.className='fixed';b.setAttribute('aria-pressed','true');b.disabled=true}else{b.setAttribute('aria-pressed',X.on.has(c));b.addEventListener('click',()=>{X.on.has(c)?X.on.delete(c):X.on.add(c);b.setAttribute('aria-pressed',X.on.has(c));drawX()})}
+  box.appendChild(b)})})();
+function drawX(){const t=T();const I=D.explorer.indicators[X.ind];const show=['Lebanon',...D.explorer.countries.filter(c=>X.on.has(c))];const ann=[];
+ const tr=show.map(c=>{const s=I.data[c],L=c==='Lebanon';if(s.x.length)ann.push(endLabel(s.x,s.y,c,L?t.orInk:t.muted));
+  return{x:s.x,y:s.y,name:c,mode:s.x.length<4?'markers':'lines+markers',marker:{size:L?6:4},line:{color:L?t.or:t.grey,width:L?3.2:1.6,dash:(c==='World'||c==='Arab World')?'dot':'solid'},opacity:L?1:.85,hovertemplate:'%{x}: %{y:,.2f}<extra>'+c+'</extra>'}});
+ const yrs=show.flatMap(c=>I.data[c].x);const y0=Math.min(...yrs),y1=Math.max(...yrs);
+ $('t-x').textContent=I.label+': Lebanon against '+(show.length>1?show.slice(1).join(', '):'no comparator selected');
+ $('s-x').textContent=I.unit+', '+y0+'-'+y1+'. Missing years are left as gaps, not filled.';
+ $('src-x').textContent='World Bank WDI panel, project workbook'+(I.modelled?'. ILO modelled estimate: understates Lebanon after 2019 (see Evidence 1).':'.');
+ const c=crisis(t);c.annotations.push(...ann);
+ Plotly.react('p-x',tr,base(t,Object.assign(c,{margin:{l:56,r:90,t:16,b:36},xaxis:ax(t,'xaxis',{dtick:2,range:[2007.5,2024.5]}),yaxis:ax(t,'yaxis',{tickformat:',',rangemode:X.ind.includes('growth')||X.ind==='net_migration'||X.ind==='inflation'?'normal':'tozero'})})),CFG);
+ const tb=document.querySelector('details[data-plot="p-x"]');if(tb.open)fillTable(tb)}
+
+/* ---------- Gaps register ---------- */
+function drawGaps(p){$('glist').innerHTML=D.gaps.filter(g=>p==='All'||g.priority===p).map(g=>
+ `<article class="g ${g.priority}"><div class="pri">${g.priority} priority · gap ${g.n}</div><h4>${g.gap}</h4><p>${g.why}</p><p><b>Now:</b> ${g.have}</p><p><b>Next step:</b> ${g.next}</p></article>`).join('')}
+document.querySelectorAll('.filt button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filt button').forEach(x=>x.setAttribute('aria-pressed',x===b));drawGaps(b.dataset.p)}));
+
+/* ---------- Data tables and CSV (accessibility: every chart readable as text) ---------- */
+function rowsOf(plotId){const gd=$(plotId);const out=[];(gd.data||[]).forEach(tr=>{if(tr.meta==='skip')return;
+ const h=tr.orientation==='h'||(tr.y&&typeof tr.y.find(v=>v!=null)==='string'&&typeof (tr.x||[]).find(v=>v!=null)==='number');const cat=h?tr.y:tr.x,val=h?tr.x:tr.y;(cat||[]).forEach((c,i)=>{if(c==null||val[i]==null)return;out.push([tr.name||'value',c,val[i]])})});return out}
+const esc=s=>String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+function fillTable(d){const rows=rowsOf(d.dataset.plot);
+ d.querySelector('.tbl').innerHTML='<table><thead><tr><th>Series</th><th>Year / category</th><th>Value</th></tr></thead><tbody>'+rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td class="n">${typeof r[2]==='number'?r[2].toLocaleString('en-GB',{maximumFractionDigits:2}):esc(r[2])}</td></tr>`).join('')+'</tbody></table>'}
+document.querySelectorAll('details.dt').forEach(d=>{d.addEventListener('toggle',()=>{if(d.open)fillTable(d)});
+ d.querySelector('.dl').addEventListener('click',()=>{const rows=rowsOf(d.dataset.plot);const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+  const csv='series,category,value\n'+rows.map(r=>r.map(q).join(',')).join('\n');const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='lebanon-graduate-futures_'+d.dataset.plot.replace('p-','')+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)})});
+
+/* ---------- Wiring ---------- */
+function bind(ids,key,vals,fn){ids.forEach((id,i)=>$(id).addEventListener('click',()=>{st[key]=vals[i];press(ids,id);fn();const d=$(id).closest('.exhibit').querySelector('details.dt');if(d&&d.open)fillTable(d)}))}
+bind(['m-total','m-youth','m-all'],'gap',['total','youth','all'],drawGap);
+bind(['i-idx','i-lfs'],'idx',['idx','lfs'],drawIdx);
+bind(['e-grp','e-trend'],'emig',['grp','trend'],drawEmig);
+bind(['v-edu','v-tert','v-lfp'],'inv',['edu','tert','lfp'],drawInv);
+function all(){drawGap();drawIdx();drawEmig();drawRemit();drawInv();drawModel();drawSim();drawX()}
+drawGaps('All');all();
+
+/* theme toggle: remembered per viewer when storage is available */
+function curTheme(){const a=document.documentElement.getAttribute('data-theme');return a||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
+function setLabel(){$('theme').textContent=curTheme()==='dark'?'Light':'Dark'}
+try{const s=localStorage.getItem('lgf-theme');if(s)document.documentElement.setAttribute('data-theme',s)}catch(e){}
+setLabel();
+$('theme').addEventListener('click',()=>{const n=curTheme()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('lgf-theme',n)}catch(e){}setLabel()});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{setLabel();all()});
+new MutationObserver(all).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+/* highlight current section in the nav */
+const links=[...document.querySelectorAll('nav.top li a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-40% 0px -55% 0px'});
+links.forEach(a=>{const s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(all,200)});
+</script>
+</body>
+</html>
