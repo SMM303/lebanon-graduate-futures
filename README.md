@@ -1,63 +1,61 @@
-# lebanon-graduate-futures
-Interactive dashboard on Lebanese university graduates since 2019: unemployment, emigration intentions and remittances, with a scenario console. MSBA 325, Team 5, American University of Beirut.
 # Lebanon Graduate Futures
 
-**Live dashboard:** https://smm303.github.io/lebanon-graduate-futures/
+An interactive evidence dashboard on what happens to Lebanese university graduates after 2019: unemployment, emigration intentions and the diaspora economy.
 
-An interactive dashboard on what has happened to Lebanese university graduates since the 2019 financial collapse: unemployment, emigration intentions, remittances and public investment in education, with a scenario console that tests how policy measures could change graduate outcomes.
+MSBA 325 Data Visualization and Communication, American University of Beirut, Fall 2026. Team 5: Amal Alrajab, Hassan Halabi, Hidaya Hussein, Maya Raad and Saleh Mansour.
 
-MSBA 325, Data Visualization and Communication, Suliman S. Olayan School of Business, American University of Beirut, Fall 2026. Instructor: Dr Zablit.
+**Live page:** `https://<your-github-username>.github.io/lebanon-graduate-futures/` (active once GitHub Pages is switched on; see [PUBLISHING.md](PUBLISHING.md)).
 
-## Key findings
+## What the dashboard shows
 
-- Youth unemployment rose from 23.0% (2018–19) to 47.8% (January 2022), according to the CAS/ILO Labour Force Surveys.
-- ILO modelled estimates show Lebanon's total unemployment at 11.1% in 2022, against 29.6% in the national survey. Global datasets understate the crisis.
-- 46% of university-educated Lebanese wanted to emigrate in 2024, against 33% of the less educated (Arab Barometer Wave VIII).
-- Remittances rose from 12.7% of GDP (2018) to 33.3% (2023), about four times Jordan's share (World Bank WDI).
-- Public spending on education stands at 1.2% of GDP (2024), against a world average of 3.6% (World Bank WDI).
-
-## What the dashboard contains
-
-| Section | Content | Interaction |
+| Section | Finding | Main source |
 |---|---|---|
-| Evidence 1 | Modelled versus surveyed unemployment | All ages / youth toggle |
-| Evidence 2 | Enrolment, GDP per capita, remittances and research output, indexed to 2018; survey indicators 2019 vs 2022 | Two views |
-| Evidence 3 | Emigration intentions by group, trend since 2007, preferred destinations | Three views |
-| Evidence 4 | Remittances as a share of GDP, Lebanon against peers | Legend filter by country |
-| Evidence 5 | Education spending, tertiary enrolment, labour force participation by sex | Three views |
-| Analytics | Fixed-effects regression on drivers of youth unemployment | Hover for estimates and p-values |
-| Scenario console | Five-cohort what-if model of graduate employment and emigration | Six sliders |
-| Strategic reading | Gaps, strengths and opportunities | |
+| Evidence 1 | The ILO modelled series puts 2022 youth unemployment at about half the national survey figure | World Bank WDI; CAS/ILO LFS 2018-19 and Jan 2022 |
+| Evidence 2 | Tertiary enrolment rose while GDP per capita fell by almost two thirds | World Bank WDI; CAS/ILO LFS |
+| Evidence 3 | Young and university-educated Lebanese are the most likely to want to emigrate | Arab Barometer 2024 |
+| Evidence 4 | Remittances rose to a third of GDP | World Bank WDI |
+| Evidence 5 | High enrolment, low public education spending, low female participation | World Bank WDI; CAS/ILO LFS |
+| Analytics | Fixed-effects regression of youth unemployment across six countries | World Bank WDI panel |
+| Scenario console | What-if model of five graduate cohorts | Stated assumptions |
+| Data explorer | Lebanon against seven comparators on 13 indicators | World Bank WDI panel |
+| Data gaps | The 13 gaps in the evidence, with next steps | Gaps tab of the workbook |
 
-The page adapts to mobile screens and follows the device's light or dark setting.
+Every survey figure carries a badge: **verified** (checked in the primary report) or **secondary source** (not yet checked). Every chart has a finding-style title, units, year range and source line, and a "Data behind this chart" table with CSV download.
 
-## Data sources
+## Repository layout
 
-1. World Bank, World Development Indicators, including ILO modelled estimates, via the open [datasets/world-development-indicators](https://github.com/datasets/world-development-indicators) mirror (CC BY 4.0), accessed October 2026.
-2. Central Administration of Statistics and ILO, Lebanon Labour Force and Household Living Conditions Survey 2018–19 and Follow-up Labour Force Survey, January 2022.
-3. Arab Barometer, [Lebanon Migration Insights 2024](https://www.arabbarometer.org/2024/08/lebanon-migration-insights-2024-public-opinion-factsheet/), and earlier waves.
-4. CRDP statistical bulletin 2019–20, via Information International.
+```
+data/Lebanon_Graduate_Futures_Data.xlsx   clean workbook (the single source of every number)
+scripts/build_dashboard.py                reads the workbook, computes every figure, writes the page
+src/template.html                         page design, text and chart code, with {{placeholders}}
+docs/index.html                           built page served by GitHub Pages (do not edit by hand)
+docs/data.json                            every number the page uses, for checking
+.github/workflows/rebuild.yml             optional: rebuilds docs/ when the workbook changes
+```
 
-Comparators: Jordan, Egypt, Tunisia, Morocco, Cyprus, the Arab World aggregate and the World.
+## Updating the data
 
-## Limitations
+1. Replace `data/Lebanon_Graduate_Futures_Data.xlsx` with the new version. Keep the tab names and column headers unchanged (`Panel_2008_2024`, `Survey_Figures`, `Survey_vs_Modelled`, `Data_Dictionary`, `Gaps`).
+2. Rebuild:
+   ```bash
+   pip install -r requirements.txt
+   python scripts/build_dashboard.py
+   ```
+3. Open `docs/index.html` in a browser and check it.
+4. Commit and push. GitHub Pages republishes within a minute or two.
 
-- ILO series for Lebanon are modelled estimates, not survey results, and are labelled as such throughout.
-- The most recent national labour force survey in our sources dates from January 2022.
-- No official statistic counts emigrant graduates; emigration is shown through stated intentions.
-- No graduate tracer data exists by university or field of study.
-- The regression shows associations in modelled data, not causal effects.
-- The scenario console is a transparent what-if tool built on stated assumptions, not a forecast.
+When a January 2022 survey value is confirmed against the CAS tables, change its `Verification status` in `Survey_Figures` so it starts with "Verified". The badge on the page switches to **verified** at the next build.
 
-## Files
+Text figures update automatically. Wording that interprets a figure (for example "doubled") is in `src/template.html` and should be reread after any large data change.
 
-| File | Purpose |
-|---|---|
-| `index.html` | The dashboard: a single self-contained page using Plotly.js |
-| `build_dataset.py` | Python script that assembles the WDI panel and national figures |
-| `lebanon_graduates_wdi_panel.csv` | WDI panel, 2005–2024, Lebanon and comparators |
-| `lebanon_graduates_national_figures.csv` | National survey and opinion figures, with source links |
+## Design choices
 
-## Team 5
+- Blue and orange only, plus greys. Orange marks Lebanon or the problem; blue marks benchmarks and improvement; grey keeps context in the background. Blue and orange stay distinct under red-green colour blindness, and colour is never the only cue (diamond vs circle, open vs filled, dashed vs solid, direct labels).
+- Direct labels at line ends replace legends (Gestalt proximity and similarity). Light gridlines only on the value axis; no chart borders or data markers unless they carry meaning.
+- One marker for the October 2019 crisis on every time series.
+- Survey and modelled estimates are never merged into one line.
+- Light and dark themes, keyboard focus states, text alternatives for every chart.
 
-Amal Al Rajab, Hassan Halabi, Hidaya Hussein, Maya Raad, Saleh Mansour (coordinator).
+## Licence
+
+Code: MIT (see `LICENSE`). Data: World Bank WDI under CC BY 4.0; survey figures belong to CAS/ILO and Arab Barometer and are cited on the page.
